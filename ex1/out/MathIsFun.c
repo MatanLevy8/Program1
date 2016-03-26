@@ -77,6 +77,7 @@ void palindromTest(){
 		if (funPalindromeCheck(i) != palindromCheck(i))
 			printf("Problem at --%d--:\n We say : %d, the truth (hopefully) is : %d\n", i,funPalindromeCheck(i),palindromCheck(i));
 	}
+	printf("palindrome test ended");
 
 }
 
@@ -206,11 +207,6 @@ bool funPalindromeCheck(int x) {
 	while (x>0)
 	{
 		num_of_digits++;
-		x/=10;
-	}
-	x = original;
-	for (i=0;i<num_of_digits;i++)
-	{
 		reversed *=10;
 		reversed += (x%10);
 		x/=10;
