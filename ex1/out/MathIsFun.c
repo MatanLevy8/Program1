@@ -1,22 +1,10 @@
 #include "MathIsFun.h"
-#include <math.h>
 
-int funPowWithPossitiveX(int x,int n,int d){
-	int inner_x;
-	if (n==0)
-		return 1;
-	if (n%2 == 0) //n is even
-	{
-		inner_x = funPow(x,n/2,d);
-		return (inner_x*inner_x)%d;
-	}
-	else // n is odd
-	{
-		inner_x= funPow(x,(n-1)/2,d);
-		return ((inner_x)*(x%d)*inner_x)%d;
-	}
-	return inner_x;
-}
+/***************************************************
+ * START OF TEST ZONE
+ * *************************************************/
+/*
+#include <math.h>
 
 int mod (int a, int b)
 {
@@ -81,47 +69,6 @@ void palindromTest(){
 
 }
 
-int main()
-{
-	int op_number, x, n, d;
-	printf("Welcome to Math Is Fun - beta version\n");
-	printf("Supported operations are:\n");
-	printf("1 - Power Calculation\n");
-	printf("2 - Prime Check\n");
-	printf("3 - Palindrome test\n");
-	printf("Please enter operation number (1/2/3): \n");
-
-	scanf("%d", &op_number);
-	switch(op_number) {
-	case 1:
-		printf("Please enter three space separated numbers: \n");
-		scanf("%d %d %d", &x, &n, &d);
-		printf("res = %d\n", funPow(x,n,d));
-		break;
-	case 2:
-		printf("Please enter an integer: \n");
-		scanf("%d", &n);
-		if (funPrimeCheck(n))
-			printf("res = true\n");
-		else
-			printf("res = false\n");
-		break;
-	case 3:
-		printf("Please enter an integer: \n");
-		scanf("%d", &n);
-		if (funPalindromeCheck(n))
-			printf("res = true\n");
-		else
-			printf("res = false\n");
-		break;
-	default:
-		break;
-	}
-
-	return 0;
-}
-
-
 void testMod()
 {
 	int x,n,d;
@@ -144,6 +91,26 @@ void testMod()
 	}
 	//printf("%d", -1%3);
 }
+*/
+/***************************************************
+ * END OF TEST ZONE
+ * *************************************************/
+
+int funPowWithPossitiveX(int x, int n, int d){
+	int inner_x;
+
+	if (n == 0)
+		return 1;
+
+	if (n % 2 == 0) //n is even
+	{
+		inner_x = funPow(x, n / 2, d);
+		return (inner_x * inner_x) % d;
+	}
+	// n is odd
+	inner_x = funPow(x, (n - 1) / 2, d);
+	return (inner_x * (x % d) * inner_x) % d;
+}
 
 /*
  * Calculates the largest integer less or equal than the square root of x.
@@ -158,33 +125,43 @@ int funSqrt(int x); // ==> Declaration is always in the beginning of the file.
 int funPow(int x, int n, int d) {
 	//Your implementation
 	//Declaration + Variable initializing at the beginning of the function
-	if (x<0)
-		x = x%d + d;
-	return funPowWithPossitiveX(x,n,d);
+
+	// check if x is negative right at the beginning in order
+	// to take care of the issue that % operator in C
+	// on negative numbers returns also negative answer
+	if (x < 0)
+		x = (x % d) + d;
+
+	return funPowWithPossitiveX(x, n, d);
 }
 
 int funSqrt(int x) {
 	//Your implementation
 	//Declaration + Variable initializing at the beginning of the function
-	int middle ,start=0,end=x, result, cand;
-	while (start<=end)
+	int start = 0, end = x, middle, result, cand;
+
+	while (start <= end)
 	{
-		middle = (start+end)/2;
+		middle = (start + end) / 2;
 		result = middle * middle;
-		if (result == x)
+
+		if (result == x) // if the sqrt is an integer, we return it
 		{
 			return middle;
 		}
+
 		else if (result < x)
 		{
-			cand = middle;
+			cand = middle;	// save potential candidate
 			start = middle + 1;
 		}
+
 		else
 		{
 			end = middle - 1;
 		}
 	}
+
 	return cand;
 }
 
@@ -192,33 +169,45 @@ bool funPrimeCheck(int x) {
 	//Your implementation
 	//Declaration + Variable initializing at the beginning of the function
 	int i;
-	for (i=2;i<funSqrt(x)+1;i++)
-		if (x%i==0)
+
+	for (i = 2; i < funSqrt(x) + 1; i++)
+		if (x % i == 0)	// check if x is divided by is
 			return false;
+
 	return true;
 }
 
 bool funPalindromeCheck(int x) {
 	//Your implementation
 	//Declaration + Variable initializing at the beginning of the function
-	int num_of_digits=0, original=x,i,reversed=0;
-	if (x<0)
+	int num_of_digits = 0, reversed = 0, original = x, i;
+
+	if (x < 0)
 		return false;
-	while (x>0)
+
+	// calculating the number of digits and saving the number with the
+	// same digits in reversed order
+	while (x > 0)
 	{
 		num_of_digits++;
-		reversed *=10;
-		reversed += (x%10);
-		x/=10;
+		reversed *= 10;
+		reversed += x % 10;
+		x /= 10;
 	}
+
 	x = original;
-	for (i=0;i<num_of_digits;i++)
+
+	// checking if x and the integer in reversed order have the same digits
+	// TODO: it's probably enough to run till (num_of_digits / 2) + 1
+	for (i = 0; i < num_of_digits; i++)
 	{
-		if (x%10 != reversed%10)
+		if (x % 10 != reversed % 10)
 			return false;
-		x/=10;
-		reversed/=10;
+
+		x /= 10;
+		reversed /= 10;
 	}
 
 	return true;
 }
+
