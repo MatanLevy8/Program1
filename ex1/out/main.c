@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include "MathIsFun.h"
 
+#define POWER_CALC 1
+#define PRIME_CHECK 2
+#define PALI_CHECK 3
+
 void handleChecker(int choice) {
 	int n;
 	bool res;
@@ -9,11 +13,11 @@ void handleChecker(int choice) {
 	scanf("%d", &n);
 
 	switch (choice) {
-	case 2:
+	case PRIME_CHECK:
 		res = funPrimeCheck(n);
 		break;
 
-	case 3:
+	case PALI_CHECK:
 		res = funPalindromeCheck(n);
 		break;
 
@@ -40,40 +44,20 @@ int main()
 
 	scanf("%d", &op_number);
 
-	// TODO: decide whether to save 1, 2, 3 as consts
 	switch(op_number) {
-	case 1:	// power calculation
+	case POWER_CALC:	// power calculation
 		printf("Please enter three space separated numbers: \n");
 		scanf("%d %d %d", &x, &n, &d);
 		printf("res = %d\n", funPow(x, n, d));
 		break;
 
-	// TODO: decide which option is better
-	case 2:
-		handleChecker(2);
+	case PRIME_CHECK: // prime check
+		handleChecker(PRIME_CHECK);
 		break;
 
-	case 3:
-		handleChecker(3);
+	case PALI_CHECK: // palindrome check
+		handleChecker(PALI_CHECK);
 		break;
-
-	/*case 2:	// prime check
-		printf("Please enter an integer: \n");
-		scanf("%d", &n);
-		if (funPrimeCheck(n))
-			printf("res = true\n");
-		else
-			printf("res = false\n");
-		break;
-
-	case 3:	// palindrome test
-		printf("Please enter an integer: \n");
-		scanf("%d", &n);
-		if (funPalindromeCheck(n))
-			printf("res = true\n");
-		else
-			printf("res = false\n");
-		break;*/
 
 	default:
 		break;
