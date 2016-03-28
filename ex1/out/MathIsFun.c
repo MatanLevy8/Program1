@@ -170,6 +170,10 @@ bool funPrimeCheck(int x) {
 	//Declaration + Variable initializing at the beginning of the function
 	int i;
 
+	//by definition, a prime number is greater than 1
+	if (x <2 )
+		return false;
+
 	for (i = 2; i < funSqrt(x) + 1; i++)
 		if (x % i == 0)	// check if x is divided by is
 			return false;
